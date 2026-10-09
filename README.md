@@ -58,3 +58,8 @@ To update an existing Mac installation without moving your database: stop the ap
 ## My job explained
 
 The My job explained tab is a read-only practical reference based on the role described in the chat. Each of the five areas explains where responsibility starts and ends, an illustrative real-world example, how to recognise useful results and where to record work in the app. It preserves HoD ownership of utilisation and routine staff matters, Projects and Maintenance ownership of fault workflows, and senior leadership recruitment approval. This working reference complements the formal company job description; it does not add authority. Existing editable responsibilities and local data remain unchanged. Update an existing Mac installation by replacing only `src`, as described above.
+
+
+## Gravity Media styling
+
+The interface uses orange (#ff671d), dark plum (#2b202e), white and pale warm backgrounds based on the supplied visual references. These are reference-matched colours, not verified official brand specifications. Orange is used for progress bars and accents; smaller text uses a darker orange (#963900) for readability against light backgrounds. The header uses the Gravity Media name. The original logo image is awaiting a PNG/SVG file attachment; the displayed text does not reproduce the supplied logo artwork. Branding is contained in `src`; the existing Mac update instructions still apply. No new dependencies or database changes are needed.

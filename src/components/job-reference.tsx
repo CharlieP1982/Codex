@@ -67,8 +67,8 @@ export function JobReference() {
     {areas.map(area => <section key={area.title} className="card">
       <h2>{area.title}</h2><p className="text-sm muted mt-3">{area.meaning}</p>
       <div className="grid md:grid-cols-2 gap-4 mt-5">
-        <div className="rounded-lg bg-[#edf3eb] p-4"><h3>Where my responsibility starts</h3><p className="text-sm mt-2">{area.start}</p></div>
-        <div className="rounded-lg border border-[#dfe6df] p-4"><h3>Where my responsibility ends</h3><p className="text-sm mt-2">{area.end}</p></div>
+        <div className="rounded-lg bg-[#fff0e7] p-4"><h3>Where my responsibility starts</h3><p className="text-sm mt-2">{area.start}</p></div>
+        <div className="rounded-lg border border-[#e5e0e7] p-4"><h3>Where my responsibility ends</h3><p className="text-sm mt-2">{area.end}</p></div>
       </div>
       <div className="mt-5"><h3>A real-world example</h3><p className="text-sm muted mt-2">{area.example}</p></div>
       <div className="mt-5"><h3>How I know I am helping</h3><p className="text-sm muted mt-2">{area.result}</p></div>
