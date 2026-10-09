@@ -2,9 +2,15 @@
 import { useEffect, useRef, useState } from 'react';
 const storageKey='leadershipos-gravity-logo';
 const allowedImage=/^data:image\/(png|jpeg|webp);base64,/;
-export function BrandLogo(){
+const logoEvent='leadershipos-logo-changed';
+export function BrandLogo({position='right'}:{position?:'left'|'right'}){
  const [logo,setLogo]=useState('');const [message,setMessage]=useState('');const input=useRef<HTMLInputElement>(null);
- useEffect(()=>{try{const saved=localStorage.getItem(storageKey);if(saved&&allowedImage.test(saved))setLogo(saved);}catch{setMessage('Your browser cannot remember a logo. You can still choose one for this session.');}},[]);
+ useEffect(()=>{
+  const load=()=>{try{const saved=localStorage.getItem(storageKey);if(saved&&allowedImage.test(saved))setLogo(saved);}catch{if(position==='right')setMessage('Your browser cannot remember a logo. You can still choose one for this session.');}};
+  const changed=(event:Event)=>{const data=(event as CustomEvent<string>).detail;if(data&&allowedImage.test(data))setLogo(data);};
+  load();window.addEventListener('storage',load);window.addEventListener(logoEvent,changed);
+  return ()=>{window.removeEventListener('storage',load);window.removeEventListener(logoEvent,changed);};
+ },[position]);
  async function choose(file?:File){
   if(!file)return;
   if(!['image/png','image/jpeg','image/webp'].includes(file.type)||file.size>2*1024*1024){setMessage('Choose a PNG, JPG or WebP image smaller than 2 MB.');return;}
@@ -12,10 +18,11 @@ export function BrandLogo(){
    const data=await new Promise<string>((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result));reader.onerror=()=>reject(new Error('read'));reader.readAsDataURL(file);});
    if(!allowedImage.test(data))throw new Error('format');
    await new Promise<void>((resolve,reject)=>{const image=new Image();image.onload=()=>resolve();image.onerror=()=>reject(new Error('image'));image.src=data;});
-   setLogo(data);
+   setLogo(data);window.dispatchEvent(new CustomEvent(logoEvent,{detail:data}));
    try{localStorage.setItem(storageKey,data);setMessage('Logo saved in this browser.');}catch{setMessage('Logo shown for this session. Browser storage is unavailable or full.');}
   }catch{setMessage('That image could not be opened. Please try another PNG or JPG.');}
  }
+ if(position==='left')return <div>{logo?<img src={logo} alt="Gravity Media" className="h-auto max-h-12 w-full max-w-[220px] object-contain object-left"/>:<span className="block font-black tracking-wide text-[19px]">GRAVITY MEDIA</span>}<span className="block mt-2 text-sm font-semibold tracking-tight">LeadershipOS</span></div>;
  return <div className="max-w-[55%] text-right">
   {logo?<img src={logo} alt="Gravity Media" className="ml-auto h-auto max-h-12 w-[220px] max-w-full object-contain"/>:<span className="block font-black tracking-wide text-sm sm:text-lg">GRAVITY MEDIA</span>}
   <input ref={input} type="file" accept="image/png,image/jpeg,image/webp" aria-label="Choose Gravity Media logo" className="sr-only" onChange={event=>{void choose(event.target.files?.[0]);event.target.value='';}}/>

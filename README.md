@@ -68,3 +68,5 @@ The interface uses orange (#ff671d), dark plum (#2b202e), white and pale warm ba
 ## Top-right logo
 
 Choose logo in the top-right header lets you select the supplied Gravity Media image directly from your Mac. PNG, JPG and WebP images up to 2 MB are accepted and checked for browser decoding. The exact image is displayed without redrawing or recolouring. It is saved locally in this browser, with a session-only fallback if browser storage is unavailable; no image is uploaded to an external service. Choose Change logo to replace it. A different browser needs the logo selected again. Save the image attachment to your Mac first; a transparent PNG is recommended for the white header.
+
+The selected logo also appears in the top-left sidebar. Changing it from the top-right chooser updates both positions immediately, including session-only selection when storage is unavailable.
