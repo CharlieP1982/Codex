@@ -63,3 +63,8 @@ The My job explained tab is a read-only practical reference based on the role de
 ## Gravity Media styling
 
 The interface uses orange (#ff671d), dark plum (#2b202e), white and pale warm backgrounds based on the supplied visual references. These are reference-matched colours, not verified official brand specifications. Orange is used for progress bars and accents; smaller text uses a darker orange (#963900) for readability against light backgrounds. The header uses the Gravity Media name. The original logo image is awaiting a PNG/SVG file attachment; the displayed text does not reproduce the supplied logo artwork. Branding is contained in `src`; the existing Mac update instructions still apply. No new dependencies or database changes are needed.
+
+
+## Top-right logo
+
+Choose logo in the top-right header lets you select the supplied Gravity Media image directly from your Mac. PNG, JPG and WebP images up to 2 MB are accepted and checked for browser decoding. The exact image is displayed without redrawing or recolouring. It is saved locally in this browser, with a session-only fallback if browser storage is unavailable; no image is uploaded to an external service. Choose Change logo to replace it. A different browser needs the logo selected again. Save the image attachment to your Mac first; a transparent PNG is recommended for the white header.
