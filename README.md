@@ -53,3 +53,8 @@ Home explains the app and shows goals, next steps, finished counts and items nee
 Goal and improvement cards have quick 0%, 25%, 50%, 75% and Mark done buttons. Progress is your estimate. Mark done sets both 100% and Done; choosing a lower percentage reopens finished work. Partly updating stuck work preserves its Stuck status. Full forms still allow any whole-number percentage. Completed work stays visible in its own section and contributes to the Home finished counts.
 
 To update an existing Mac installation without moving your database: stop the app, download the latest ZIP from the leadershipos-phase-one branch, and replace only the existing project’s `src` folder with the downloaded `src` folder. Keep your existing `.env` and entire `prisma` folder. Restart with `npm run dev`. No dependency or database changes are required for this update.
+
+
+## My job explained
+
+The My job explained tab is a read-only practical reference based on the role described in the chat. Each of the five areas explains where responsibility starts and ends, an illustrative real-world example, how to recognise useful results and where to record work in the app. It preserves HoD ownership of utilisation and routine staff matters, Projects and Maintenance ownership of fault workflows, and senior leadership recruitment approval. This working reference complements the formal company job description; it does not add authority. Existing editable responsibilities and local data remain unchanged. Update an existing Mac installation by replacing only `src`, as described above.
