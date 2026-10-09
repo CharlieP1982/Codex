@@ -44,3 +44,12 @@ Prisma uses its supported JavaScript engine and local libSQL SQLite adapter. Onl
 ## Verified in the cloud workspace
 
 A clean `npm ci`, repeatable `db:setup`, all 4 automated tests, TypeScript checks and a production build passed. HTTP checks exercised all six workspaces and actual server-action creation, editing and invalid-progress rejection. Temporary test records were removed. Seed reruns preserved the original 12 demonstration records, including exactly five remit areas. Responsive CSS and accessible controls are implemented; a browser-based visual/accessibility audit has not been performed.
+
+
+## Plain-language version
+
+Home explains the app and shows goals, next steps, finished counts and items needing attention. My responsibilities describes your job; My goals holds three-month goals; Things to improve holds changes you want to make; Regular check-ins holds repeat conversations; My week holds weekly notes. The underlying data and database format are unchanged.
+
+Goal and improvement cards have quick 0%, 25%, 50%, 75% and Mark done buttons. Progress is your estimate. Mark done sets both 100% and Done; choosing a lower percentage reopens finished work. Partly updating stuck work preserves its Stuck status. Full forms still allow any whole-number percentage. Completed work stays visible in its own section and contributes to the Home finished counts.
+
+To update an existing Mac installation without moving your database: stop the app, download the latest ZIP from the leadershipos-phase-one branch, and replace only the existing project’s `src` folder with the downloaded `src` folder. Keep your existing `.env` and entire `prisma` folder. Restart with `npm run dev`. No dependency or database changes are required for this update.
