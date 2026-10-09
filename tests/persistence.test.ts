@@ -1,0 +1,4 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { createDb } from '../src/lib/client';
+test('SQLite persists a record across connections and supports updates',async()=>{const db=createDb();let id='';try{const r=await db.record.create({data:{kind:'initiative',title:'Persistence test',owner:'Fictional test',outcome:'Verified persistence',nextAction:'Clean up',benefit:'Confidence',progress:10}});id=r.id;await db.$disconnect();const fresh=createDb();try{assert.equal((await fresh.record.findUniqueOrThrow({where:{id}})).title,'Persistence test');await fresh.record.update({where:{id},data:{progress:70,status:'Complete'}});assert.equal((await fresh.record.findUniqueOrThrow({where:{id}})).progress,70);}finally{await fresh.$disconnect();}}finally{if(id)await db.record.delete({where:{id}});await db.$disconnect();}});

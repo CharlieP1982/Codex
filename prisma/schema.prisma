@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "client"
+}
+datasource db {
+  provider = "sqlite"
+  url = env("DATABASE_URL")
+}
+model Record {
+  id String @id @default(cuid())
+  kind String
+  title String
+  detail String @default("")
+  owner String @default("")
+  outcome String @default("")
+  nextAction String @default("")
+  benefit String @default("")
+  cadence String @default("Weekly")
+  due String @default("")
+  status String @default("Active")
+  progress Int @default(0)
+  createdAt DateTime @default(now())
+  @@index([kind])
+}

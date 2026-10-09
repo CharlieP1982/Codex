@@ -1,0 +1,46 @@
+# LeadershipOS
+
+A responsive, local-first leadership workspace for an engineering delivery leader. Phase one includes five editable remit areas, quarterly measurable objectives, weekly/monthly activities, an overview of confirmed commitments, initiatives, and weekly reviews. All demonstration people and records are fictional. The focus panel ranks existing confirmed work by blocker status and due date; it is not an AI engine and never creates tasks.
+
+## Run locally
+
+Requires Node.js 22 or later and npm. From this checkout:
+
+```sh
+npm ci
+# Create .env if absent (never overwrite existing configuration):
+test -f .env || cp .env.example .env
+npm run db:setup
+npm run dev
+```
+
+On a Mac, install Node.js LTS from https://nodejs.org, reopen Terminal, and run these commands in the downloaded project folder. Open http://localhost:3000 after startup and leave Terminal running.
+
+For an existing installation, keep your `.env`. SQLite is in `prisma/leadership.db`. `db:setup` generates Prisma, applies the idempotent initial SQL migration, and adds demonstration data only when the database is empty. No external credentials, company systems or external APIs are needed. For normal local use, bind to loopback: `npm run dev -- --hostname 127.0.0.1`.
+
+```sh
+npm test
+npm run build
+npm run typecheck
+npm start -- --hostname 127.0.0.1
+```
+
+## Workflow
+
+Edit any of the five responsibility areas under Leadership remit. Add objectives with a quarter and a numeric target in the measurable outcome. Track progress independently from status; mark records Complete when finished. Initiatives capture owner, outcome, next action and expected benefit. Weekly review captures achievements, blockers and next priorities. Recurring activities carry weekly/monthly cadence and a next-occurrence date; after doing an activity, manually advance its date. Dashboard counts and focus recommendations update from saved records. Complete records remain available in their workspace but leave the active dashboard.
+
+Forms use labelled controls, native date/number constraints, server-side Zod validation and save/error announcements. The app provides keyboard navigation, a skip link, semantic headings, progress values and responsive layouts. SQLite writes happen on the local Next.js server; browser storage is not used. Network-free operation is available once dependencies are installed. This MVP has no authentication or multi-user isolation: use only on a trusted local machine, with fictional information, and do not expose it publicly.
+
+## Storage and recovery
+
+Stop the app before copying `prisma/leadership.db` to a private backup location. Restore while stopped. The DB and `.env` are ignored by Git. No data is sent to external integrations; dependencies are fetched during installation only. Avoid real employee information. Phase two AI recommendations, approval flows, private HoD support and Director reporting are deliberately not implemented.
+
+## Tests
+
+`npm test` exercises validation, deterministic focus prioritisation and actual SQLite persistence across Prisma connections, including updating and cleaning up a test record. Run `db:setup` first. Production build verifies Next.js compilation and types. Manual functional checks should include each workspace, creating and editing records, invalid submissions and narrow-screen keyboard use.
+
+Prisma uses its supported JavaScript engine and local libSQL SQLite adapter. Only `file:` database URLs are accepted; no Turso service is used. The initial migration is applied locally without downloading Prisma Rust engines. For future schema changes, add reviewed SQL migrations and extend the migration runner; do not assume `db:setup` applies arbitrary schema changes.
+
+## Verified in the cloud workspace
+
+A clean `npm ci`, repeatable `db:setup`, all 4 automated tests, TypeScript checks and a production build passed. HTTP checks exercised all six workspaces and actual server-action creation, editing and invalid-progress rejection. Temporary test records were removed. Seed reruns preserved the original 12 demonstration records, including exactly five remit areas. Responsive CSS and accessible controls are implemented; a browser-based visual/accessibility audit has not been performed.

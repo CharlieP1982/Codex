@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS "Record" (
+ "id" TEXT NOT NULL PRIMARY KEY,
+ "kind" TEXT NOT NULL,
+ "title" TEXT NOT NULL,
+ "detail" TEXT NOT NULL DEFAULT '',
+ "owner" TEXT NOT NULL DEFAULT '',
+ "outcome" TEXT NOT NULL DEFAULT '',
+ "nextAction" TEXT NOT NULL DEFAULT '',
+ "benefit" TEXT NOT NULL DEFAULT '',
+ "cadence" TEXT NOT NULL DEFAULT 'Weekly',
+ "due" TEXT NOT NULL DEFAULT '',
+ "status" TEXT NOT NULL DEFAULT 'Active',
+ "progress" INTEGER NOT NULL DEFAULT 0,
+ "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS "Record_kind_idx" ON "Record"("kind");
