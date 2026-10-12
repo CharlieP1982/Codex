@@ -24,3 +24,25 @@ export async function updateProgress(form:FormData){
  await db.record.update({where:{id},data:progressState(progress,current.status)});
  revalidatePath('/');redirect('/?view='+view+'&saved=1#record-'+id);
 }
+
+export async function saveMeeting(form:FormData){
+ const {meetingSchema}=await import('@/lib/meetings');const parsed=meetingSchema.safeParse(Object.fromEntries(form.entries()));
+ if(!parsed.success)redirect('/?view=meeting&error='+encodeURIComponent(parsed.error.issues[0].message));
+ const {storeMeeting}=await import('@/lib/meeting-store');const entry=await storeMeeting(db,parsed.data);
+ revalidatePath('/');redirect('/?view=meeting&saved=1#meeting-'+entry.id);
+}
+export async function saveMeetingAction(form:FormData){
+ const {meetingActionSchema}=await import('@/lib/meetings');const parsed=meetingActionSchema.safeParse(Object.fromEntries(form.entries()));
+ if(!parsed.success)redirect('/?view=meeting&error='+encodeURIComponent(parsed.error.issues[0].message));
+ const {storeMeetingAction}=await import('@/lib/meeting-store');await storeMeetingAction(db,parsed.data);
+ revalidatePath('/');redirect('/?view=meeting&saved=1#meeting-'+parsed.data.meetingId);
+}
+export async function copyNextMeeting(form:FormData){
+ const {repeatMeeting}=await import('@/lib/meeting-store');const entry=await repeatMeeting(db,String(form.get('id')||''));
+ revalidatePath('/');redirect('/?view=meeting&saved=1#meeting-'+entry.id);
+}
+export async function resetProgress(form:FormData){
+ if(form.get('confirm')!=='yes')redirect('/?view=activity&error='+encodeURIComponent('Tick the confirmation before resetting.'));
+ await db.record.updateMany({where:{kind:{in:['objective','initiative','activity','meeting-action']}},data:{progress:0,status:'Active'}});
+ revalidatePath('/');redirect('/?view=activity&saved=1');
+}

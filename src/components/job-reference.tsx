@@ -12,8 +12,8 @@ const areas = [
   {
     title: '2. Make sure the right skills are available for future work',
     meaning: 'Look ahead at what engineering delivery will need and where skills or cover may be missing.',
-    start: 'You own workforce capability planning: identify important skill gaps, consider training and cover, and prepare evidence when recruitment may be needed.',
-    end: 'HoDs manage department utilisation and routine staff matters. Senior leadership approves recruitment. You can identify a need and recommend action; that does not give you recruitment approval.',
+    start: 'You own planning staff skills and training: identify important skill gaps, consider training and cover, and prepare evidence when recruitment may be needed.',
+    end: 'HoDs manage department workload and routine staff matters. Senior leadership approves recruitment. You can identify a need and recommend action; that does not give you recruitment approval.',
     example: 'Only one person can cover an important skill. Use existing information to work with the HoD on a practical training or cover plan. Take any recruitment request to senior leadership.',
     result: 'Important work has a realistic skills and cover plan, and unresolved gaps are visible to the people who can decide.',
     use: 'Put the result you want in My goals and the training or cover work in Things to improve.',
@@ -21,7 +21,7 @@ const areas = [
   {
     title: '3. Help departments work together',
     meaning: 'Step in where work crosses department boundaries and needs a shared decision or a clearer handover.',
-    start: 'You own cross-department coordination: bring the right people together, clarify shared responsibilities and agree the next step.',
+    start: 'You own helping teams work together: bring the right people together, clarify shared responsibilities and agree the next step.',
     end: 'HoDs keep ownership of their own departments. You do not become the person who allocates every engineer or maintains another department workload tracker.',
     example: 'Two departments each expect the other to finish a handover. Agree who owns each part and when the handover is ready, using the systems already in place.',
     result: 'People know who is doing what, and fewer jobs get stuck between departments.',
@@ -30,7 +30,7 @@ const areas = [
   {
     title: '4. Make the way work runs easier',
     meaning: 'Notice recurring problems in how teams work and help make practical changes.',
-    start: 'You own operational improvement: choose a recurring source of friction, agree a small change, try it and check whether it helped.',
+    start: 'You own making things better: choose a recurring source of friction, agree a small change, try it and check whether it helped.',
     end: 'Projects and Maintenance retain their established technical fault workflows. A fault still goes through those routes. This app is not another fault log or a reason to create extra HoD returns.',
     example: 'Teams repeatedly have to ask for missing handover information. Try a clearer handover within the existing workflow and check whether repeat questions decrease.',
     result: 'Less avoidable effort, clearer handovers and changes that actually help the people doing the work.',
@@ -58,7 +58,7 @@ export function JobReference() {
       <h2>A quick way to decide: is this mine?</h2>
       <ul className="list-disc pl-5 space-y-3 text-sm mt-4">
         <li><strong>Developing leaders, planning future skills, joining up departments or improving how work runs?</strong> That sits within your responsibilities.</li>
-        <li><strong>Routine staff matters or department utilisation?</strong> The HoD owns those. Support them where useful.</li>
+        <li><strong>Routine staff matters or department workload?</strong> The HoD owns those. Support them where useful.</li>
         <li><strong>A technical fault?</strong> Use the established Projects or Maintenance workflow.</li>
         <li><strong>Recruitment approval?</strong> Senior leadership decides. You can prepare the evidence and recommendation.</li>
         <li><strong>Unclear authority or competing priorities?</strong> Bring a clear question and your recommendation to your Director.</li>

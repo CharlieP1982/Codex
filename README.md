@@ -1,72 +1,65 @@
-# LeadershipOS
+# Gravity Media LeadershipOS
 
-A responsive, local-first leadership workspace for an engineering delivery leader. Phase one includes five editable remit areas, quarterly measurable objectives, weekly/monthly activities, an overview of confirmed commitments, initiatives, and weekly reviews. All demonstration people and records are fictional. The focus panel ranks existing confirmed work by blocker status and due date; it is not an AI engine and never creates tasks.
+A private notebook for an engineering delivery leader: your responsibilities, goals, next steps, progress, regular conversations, weekly notes and meeting plans. Next.js, TypeScript, Tailwind, Prisma and local SQLite. Use fictional examples only. No company systems, external integrations, calendar invitations or AI services are connected.
 
-## Run locally
+## Start on your Mac
 
-Requires Node.js 22 or later and npm. From this checkout:
+Install Node.js LTS (22 or later) from https://nodejs.org and reopen Terminal. Open Terminal in the downloaded project folder, then run:
 
 ```sh
 npm ci
-# Create .env if absent (never overwrite existing configuration):
+# Only create .env if it does not already exist:
 test -f .env || cp .env.example .env
 npm run db:setup
 npm run dev
 ```
 
-On a Mac, install Node.js LTS from https://nodejs.org, reopen Terminal, and run these commands in the downloaded project folder. Open http://localhost:3000 after startup and leave Terminal running.
+Open http://localhost:3000 and leave Terminal running. Control+C stops the app. Arial is the first font throughout. The server binds to your computer only and has no login; do not expose it publicly.
 
-For an existing installation, keep your `.env`. SQLite is in `prisma/leadership.db`. `db:setup` generates Prisma, applies the idempotent initial SQL migration, and adds demonstration data only when the database is empty. No external credentials, company systems or external APIs are needed. For normal local use, bind to loopback: `npm run dev -- --hostname 127.0.0.1`.
+## Sections
+
+- **Home:** what to look at today, next steps, progress, finished counts and upcoming meeting counts. Suggestions rank existing work marked Stuck first, then due work. They do not create tasks or measure work automatically.
+- **My responsibilities:** edit the five areas of your job.
+- **My job explained:** a read-only plain-English reference with examples and where responsibility starts and ends. It complements your company's formal job description.
+- **My goals:** what you want to achieve over three months; include a specific result and target date.
+- **My weekly checklist:** weekly or monthly check-ins. Tick Done and Save tick after a check-in. Untick and edit its date for the next occurrence.
+- **Things to improve:** a change you are trying to make, why it helps and the next small step.
+- **My week:** what went well, what got in the way and what to do next.
+- **Meetings and agendas:** plan a date and time, attendees, topics to discuss, notes and decisions. Add named actions with due dates and save completion ticks. Editing an action preserves its completion state.
+
+Meeting times are the local times agreed with attendees, not timezone-converted bookings. Weekly/monthly meetings have a button to create the next meeting with the same agenda and attendees. New notes, decisions and actions start empty. Short months use the last valid day. This is manual agenda reuse, not automatic scheduling. Clicking the button twice creates two meetings. No invitations or reminders are sent.
+
+Goal and improvement cards have quick 0%, 25%, 50%, 75% and Mark done buttons. Progress is your estimate. Mark done sets 100% and Done; choosing a lower percentage reopens finished work. Partly updating stuck work preserves Stuck. Full forms allow any whole-number percentage. New forms have no status/repeat answer chosen and progress starts at zero.
+
+## Resetting ticks and progress
+
+Fresh demonstration data starts at zero, with no checklist ticks. Existing installations retain their data on update. To reset an existing installation, open My weekly checklist → Start progress and checklists again, read the explanation, tick the confirmation and press Reset progress and ticks. This sets goals, improvements and check-ins back to Working on it, sets progress to zero, and unticks meeting actions. It keeps written notes, agendas, dates, attendees and meeting history. Reset cannot be undone without a backup. It does not rewrite your entries or clear their text.
+
+## Branding
+
+Orange (#ff671d), dark plum (#2b202e) and white match the visual references. They are reference-matched, not verified official brand specifications. Smaller orange text is darker (#963900) for readability. The logo appears top-left only. Choose logo there to select a PNG, JPG or WebP up to 2 MB. It is displayed unchanged and remembered in this browser. Existing selections are reused. If browser storage is unavailable, it is session-only. No image is uploaded externally. The original image has to be selected locally; it is not embedded in the source ZIP. There is no top-right logo.
+
+## Keep your data when updating
+
+For this update, stop the app and replace **only the `src` folder** in your existing project with `src` from the latest download. Keep `.env`, `prisma/leadership.db`, `node_modules` and the rest of your existing project. Restart with `npm run dev`. No new dependencies or database schema changes are required. Meetings use additional record types in the existing database.
+
+If installing from a new full download, use the start steps above. To retain data in a new folder, stop the old app and copy its `.env` and `prisma/leadership.db` into the new folder before starting.
+
+## Storage and backup
+
+The SQLite database is `prisma/leadership.db` by default. Only `file:` database URLs are accepted. `db:setup` generates Prisma, applies the idempotent initial SQL migration and seeds fictional records only when the entire database is empty. Existing records are never reseeded or silently reset. Stop the app before copying the database to a private backup. Keep that backup safe; restore only while stopped. The DB and `.env` are ignored by Git.
+
+Prisma uses its supported JavaScript engine and a local SQLite libSQL adapter. There is no Turso connection and no Rust engine download is needed. Future schema changes need reviewed migrations and an updated migration runner; `db:setup` is not a general schema synchroniser.
+
+## Verification
 
 ```sh
 npm test
 npm run build
 npm run typecheck
-npm start -- --hostname 127.0.0.1
+npm start
 ```
 
-## Workflow
+Ten automated tests cover validation, progress transitions, focus ranking, SQLite persistence, meeting/action persistence, invalid cross-record updates and weekly/monthly recurrence. HTTP functional checks exercise meeting creation and editing, action completion and reopening, agenda reuse, validation and reset confirmation. Responsive layouts and accessible labelled forms are implemented; browser visual/accessibility auditing has not been performed.
 
-Edit any of the five responsibility areas under Leadership remit. Add objectives with a quarter and a numeric target in the measurable outcome. Track progress independently from status; mark records Complete when finished. Initiatives capture owner, outcome, next action and expected benefit. Weekly review captures achievements, blockers and next priorities. Recurring activities carry weekly/monthly cadence and a next-occurrence date; after doing an activity, manually advance its date. Dashboard counts and focus recommendations update from saved records. Complete records remain available in their workspace but leave the active dashboard.
-
-Forms use labelled controls, native date/number constraints, server-side Zod validation and save/error announcements. The app provides keyboard navigation, a skip link, semantic headings, progress values and responsive layouts. SQLite writes happen on the local Next.js server; browser storage is not used. Network-free operation is available once dependencies are installed. This MVP has no authentication or multi-user isolation: use only on a trusted local machine, with fictional information, and do not expose it publicly.
-
-## Storage and recovery
-
-Stop the app before copying `prisma/leadership.db` to a private backup location. Restore while stopped. The DB and `.env` are ignored by Git. No data is sent to external integrations; dependencies are fetched during installation only. Avoid real employee information. Phase two AI recommendations, approval flows, private HoD support and Director reporting are deliberately not implemented.
-
-## Tests
-
-`npm test` exercises validation, deterministic focus prioritisation and actual SQLite persistence across Prisma connections, including updating and cleaning up a test record. Run `db:setup` first. Production build verifies Next.js compilation and types. Manual functional checks should include each workspace, creating and editing records, invalid submissions and narrow-screen keyboard use.
-
-Prisma uses its supported JavaScript engine and local libSQL SQLite adapter. Only `file:` database URLs are accepted; no Turso service is used. The initial migration is applied locally without downloading Prisma Rust engines. For future schema changes, add reviewed SQL migrations and extend the migration runner; do not assume `db:setup` applies arbitrary schema changes.
-
-## Verified in the cloud workspace
-
-A clean `npm ci`, repeatable `db:setup`, all 4 automated tests, TypeScript checks and a production build passed. HTTP checks exercised all six workspaces and actual server-action creation, editing and invalid-progress rejection. Temporary test records were removed. Seed reruns preserved the original 12 demonstration records, including exactly five remit areas. Responsive CSS and accessible controls are implemented; a browser-based visual/accessibility audit has not been performed.
-
-
-## Plain-language version
-
-Home explains the app and shows goals, next steps, finished counts and items needing attention. My responsibilities describes your job; My goals holds three-month goals; Things to improve holds changes you want to make; Regular check-ins holds repeat conversations; My week holds weekly notes. The underlying data and database format are unchanged.
-
-Goal and improvement cards have quick 0%, 25%, 50%, 75% and Mark done buttons. Progress is your estimate. Mark done sets both 100% and Done; choosing a lower percentage reopens finished work. Partly updating stuck work preserves its Stuck status. Full forms still allow any whole-number percentage. Completed work stays visible in its own section and contributes to the Home finished counts.
-
-To update an existing Mac installation without moving your database: stop the app, download the latest ZIP from the leadershipos-phase-one branch, and replace only the existing project’s `src` folder with the downloaded `src` folder. Keep your existing `.env` and entire `prisma` folder. Restart with `npm run dev`. No dependency or database changes are required for this update.
-
-
-## My job explained
-
-The My job explained tab is a read-only practical reference based on the role described in the chat. Each of the five areas explains where responsibility starts and ends, an illustrative real-world example, how to recognise useful results and where to record work in the app. It preserves HoD ownership of utilisation and routine staff matters, Projects and Maintenance ownership of fault workflows, and senior leadership recruitment approval. This working reference complements the formal company job description; it does not add authority. Existing editable responsibilities and local data remain unchanged. Update an existing Mac installation by replacing only `src`, as described above.
-
-
-## Gravity Media styling
-
-The interface uses orange (#ff671d), dark plum (#2b202e), white and pale warm backgrounds based on the supplied visual references. These are reference-matched colours, not verified official brand specifications. Orange is used for progress bars and accents; smaller text uses a darker orange (#963900) for readability against light backgrounds. The header uses the Gravity Media name. The original logo image is awaiting a PNG/SVG file attachment; the displayed text does not reproduce the supplied logo artwork. Branding is contained in `src`; the existing Mac update instructions still apply. No new dependencies or database changes are needed.
-
-
-## Top-right logo
-
-Choose logo in the top-right header lets you select the supplied Gravity Media image directly from your Mac. PNG, JPG and WebP images up to 2 MB are accepted and checked for browser decoding. The exact image is displayed without redrawing or recolouring. It is saved locally in this browser, with a session-only fallback if browser storage is unavailable; no image is uploaded to an external service. Choose Change logo to replace it. A different browser needs the logo selected again. Save the image attachment to your Mac first; a transparent PNG is recommended for the white header.
-
-The selected logo also appears in the top-left sidebar. Changing it from the top-right chooser updates both positions immediately, including session-only selection when storage is unavailable.
+HoDs retain department workload and routine staff matters; Projects and Maintenance retain fault workflows; senior leaders approve recruitment. The app should help you choose how to spend your time without additional administration for HoDs. Private HoD support, Director reporting, staffing modules, an AI Focus Engine and AI agenda generation are not implemented in this update.
