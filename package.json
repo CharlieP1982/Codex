@@ -8,7 +8,8 @@
     "start": "next start --hostname 127.0.0.1",
     "test": "tsx --test tests/*.test.ts",
     "db:setup": "prisma generate && tsx prisma/setup.ts && tsx prisma/seed.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "mac:install": "bash scripts/install-mac-app.sh"
   },
   "dependencies": {
     "@libsql/client": "^0.8.1",

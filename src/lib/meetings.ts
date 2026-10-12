@@ -1,9 +1,10 @@
 import { z } from 'zod';
+import {validAgenda} from './agenda';
 export const dateSchema=z.string().refine(value=>/^\d{4}-\d{2}-\d{2}$/.test(value)&&!isNaN(Date.parse(value))&&new Date(value).toISOString().slice(0,10)===value,'Choose a valid date.');
 export const meetingSchema=z.object({
  id:z.string().max(100).default(''),title:z.string().trim().min(1,'Give the meeting a name.').max(160),
  participants:z.string().trim().max(500),due:dateSchema,time:z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/,'Choose a valid time.'),
- agenda:z.string().trim().max(8000),notes:z.string().trim().max(8000),decisions:z.string().trim().max(4000),
+ agenda:z.string().trim().max(20000).refine(validAgenda,'Check the agenda topics, choices and time estimates.'),notes:z.string().trim().max(8000),decisions:z.string().trim().max(4000),
  repeat:z.enum(['Once','Weekly','Monthly']),status:z.enum(['Active','Complete']),
 });
 export const meetingDetailSchema=z.object({time:z.string(),agenda:z.string(),notes:z.string(),repeat:z.enum(['Once','Weekly','Monthly'])});
