@@ -46,3 +46,21 @@ export async function resetProgress(form:FormData){
  await db.record.updateMany({where:{kind:{in:['objective','initiative','activity','meeting-action']}},data:{progress:0,status:'Active'}});
  revalidatePath('/');redirect('/?view=activity&saved=1');
 }
+
+export async function saveDashboardNote(form:FormData){
+ const {dashboardNoteSchema}=await import('@/lib/dashboard-notes');
+ const parsed=dashboardNoteSchema.safeParse(Object.fromEntries(form.entries()));
+ if(!parsed.success)redirect('/?error='+encodeURIComponent(parsed.error.issues[0].message));
+ const data=parsed.data;let id=data.id;
+ if(id){const existing=await db.record.findUnique({where:{id}});if(existing?.kind!==data.kind||(['hod-support','boss-update'].includes(data.kind)&&existing.owner!==data.owner))throw new Error('Note not found.');}
+ else if(['hod-support','boss-update'].includes(data.kind)){id=(await db.record.findFirst({where:{kind:data.kind,owner:data.owner}}))?.id??'';}
+ const {id:ignored,...saved}=data;void ignored;
+ if(id)await db.record.update({where:{id},data:saved});else await db.record.create({data:saved});
+ revalidatePath('/');redirect('/?saved=1#'+(data.kind==='boss-update'?'boss':data.kind==='hod-support'?'hods':'staff'));
+}
+export async function tickDashboardActivity(form:FormData){
+ const id=String(form.get('id')||'');const entry=await db.record.findUnique({where:{id}});if(entry?.kind!=='activity')throw new Error('Check-in not found.');
+ const done=form.getAll('done').includes('yes');
+ await db.record.update({where:{id},data:{status:done?'Complete':'Active'}});
+ revalidatePath('/');redirect('/?saved=1#weekly');
+}
